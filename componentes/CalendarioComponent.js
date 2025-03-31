@@ -15,9 +15,10 @@ function Calendario(props) { // Componente que recibe las propiedades de su comp
     const renderCalendarioItem = ({ item, index }) => { // define una funcion que recibe
         // un objeto con los valores item - conjunto de datos, e index-indice de cada excursion, 
         //renderiza un listItem para cada excursion
+        // funcion onPress, se ejecuta cuando el usuario pulsa una excursion, para el id 
         //  - ITEM img predeterminada
         //  - ListItem.contet, que contiene el nombre,descripcion
-        return (<ListItem key={index} bottomDivider>
+        return (<ListItem key={index} onPress={() => props.onPress(item.id)} bottomDivider>
             <Avatar source={require('./imagenes/40Años.png')} />
              
             <ListItem.Content>
