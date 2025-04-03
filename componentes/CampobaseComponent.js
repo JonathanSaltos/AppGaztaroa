@@ -1,57 +1,64 @@
-import React, { Component } from 'react';// importa react y la clase componente de react
-import Calendario from './CalendarioComponent';
-//importa el componente Calendario, el cual se va a renderizar ()mostrar dentro de Campobase component
-// importa el array de objetos EXCURSIONES, el cual contiene el listado de excursiones, id,nombre,
-//detalle
-import { EXCURSIONES } from '../comun/excursiones';
-import DetalleExcursion from './DetalleExcursionComponent';
-import { View } from 'react-native';
-class Campobase extends Component { // define componente de clase llamado Campobase que extiende de react component
-    // inicializamos el estado del componente
-    constructor(props) { //recibe propiedades como argumento pasados por el padre
-        super(props);
-        this.state = { // estado inicial
-            excursiones: EXCURSIONES, // inicializa el estado del componente con la lista de excursiones a mostrar
-            seleccionExcursion: null // permitira almacenar la excursion seleccionada por el usuario
-            //  se actualizara cuando el usuario seleccione la excursion
-        };
+//componente de React Native que configura la navegación entre dos pantallas 
+// dentro de una aplicación móvil utilizando React Navigation. 
+import React, { Component } from 'react';// importa react y la clase componente de react,Component se usa para definir componentes de clase en React.
+import Constants from 'expo-constants'; // Importa Constants desde Expo, lo que permite acceder a constantes del entorno
+import Calendario from './CalendarioComponent';//importa el componente Calendario, para usarla en la navegacion
+import DetalleExcursion from './DetalleExcursionComponent';// importa DetalleExcursion para usarla en la navegacion
+import { Platform, View } from 'react-native';//Platform permite ejecutar código específico para iOS o Android.
+//View es un contenedor que se usa para estructurar la interfaz.
+import { NavigationContainer } from '@react-navigation/native';//es el contenedor que maneja la navegación.
+import { createNativeStackNavigator } from '@react-navigation/native-stack';//crea una pila de navegación para moverse entre pantallas.
 
+const Stack = createNativeStackNavigator();//Se crea una instancia del Stack Navigator, que define la estructura de la navegación entre pantallas.
 
-
-    }
-
-    onSeleccionExcursion(excursionId) { // define un metodo dentro de la clase CampoBase, 
-        // recibe el id de la excursion seleccionada
-        this.setState({ seleccionExcursion: excursionId }) // actualiza el estado del componente
-        //cambia SeleccionExcursion a id de la excursion seleccionada
-    }
-
-
-    render() { // metodo render obligatorio en un componente de clase react, define que debe renderizar
-        // el componente en la interfaz de usuario
-        // CALENDARIO Y DETALLEEXCURSION
-
-        // Filtrado de lista de excursiones, devuelve un array con la excursion cuyo id coincida con 
-        // Devuelve un array con la excursión cuyo id coincida con el seleccionado por el usuario
-        // devuelve el primer elemento del array
-        return (
-
-            <View>
-                <DetalleExcursion excursion={this.state.excursiones.filter((excursion) =>
-                    excursion.id === this.state.seleccionExcursion)[0]} />
-                    
-                <Calendario excursiones={this.state.excursiones} onPress={(excursionId) =>
-                    this.onSeleccionExcursion(excursionId)} />
-            </View>
-
-            // devolvera el componente calendario pasandole como propiedad la lista de excursiones
-            // y las mostrara 
-            // define funcion onPress que recibe la excursion id seleccionada por el usuario y 
-            // actualiza el estado con esta seleccionada
-
-
-        );
-    }
+//Componente calendarioNavegador
+//Se define el componente funcional CalendarioNavegador, 
+// que maneja la navegación entre las pantallas.
+function CalendarioNavegador() {
+  return (
+    <Stack.Navigator //configura el stack de navegación.
+      initialRouteName="Calendar" //define que la primera pantalla será Calendar.
+      headerMode="float"
+      screenOptions={{ //personaliza el estilo de los encabezados de las pantallas.
+        headerTintColor: '#fff',
+        headerStyle: { backgroundColor: '#015afc' },
+        headerTitleStyle: { color: '#fff' },
+      }}
+    >
+      <Stack.Screen 
+        name="Calendar"//Agrega una pantalla llamada Calendar, que renderiza el componente Calendario
+        // cuando se accede a esta pantalla
+        component={Calendario}
+        options={{
+          title: 'Calendario Gaztaroa',//define el título en la barra de navegación.
+        }}
+      />
+      <Stack.Screen //Agrega una segunda pantalla llamada DetalleExcursion, 
+      // que renderiza el componente DetalleExcursion.
+        name="DetalleExcursion"
+        component={DetalleExcursion}
+        options={{
+          title: 'Detalle Excursión',//define el título en la barra de navegación.
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+//componente principal de la app.
+class Campobase extends Component {// define componente de clase llamado Campobase que extiende de react component
+  render() {// metodo render obligatorio en un componente de clase react, define que debe renderizar
+    // el componente en la interfaz de usuario
+     return (//envuelve la navegación de la aplicación.
+      //View es un contenedor que ocupa todo el espacio disponible (flex:1).
+      //ajusta la interfaz para evitar que la barra de estado se superponga en Android.
+      //se renderiza CalendarioNavegador, que maneja la navegación entre pantallas.
+      <NavigationContainer>
+        <View style={{flex:1, paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight }}>
+          <CalendarioNavegador />
+        </View>
+      </NavigationContainer>      
+  );
+  }
 }
 
 export default Campobase;
