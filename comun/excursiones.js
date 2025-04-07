@@ -1,3 +1,10 @@
+//Este archivo exporta una constante llamada EXCURSIONES, que es un array de objetos. 
+//Cada objeto representa una excursión organizada por el club Gaztaroa.
+//Este array contiene cuatro objetos, y cada uno representa una excursión diferente.
+//id: Identificador único, nombre: Nombre de la excursión (Bisaurín)., 
+//imagen: Ruta a una imagen relacionada con la excursión.
+//destacado: true → Este se mostrará como la excursión destacada en la pantalla principal (Home).
+//descripcion: Explica qué se va a hacer en la salida
 export const EXCURSIONES =
     [
         {
