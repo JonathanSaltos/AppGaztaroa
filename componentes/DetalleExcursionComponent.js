@@ -10,18 +10,42 @@ function RenderExcursion(props) {// define la funcion RnderExcursion, componente
     //recibe el objeto props con toda la informacion de la excursion.
 
     const excursion = props.excursion;//extrae la excursion
-    
+    //<Card.Title>{excursion.nombre}</Card.Title>
         if (excursion != null) {// comprueba si el objeto excursion, esta vacio
             return(// devuelve un componente card, el cual servira como contenedor para los datos
                 // muestra el nombre, linea divisoria, imagen, descripcion de la excursion
-            <Card>
-              <Card.Title>{excursion.nombre}</Card.Title>
-              <Card.Divider/>
-              <Card.Image source={require('./imagenes/40Años.png')}></Card.Image>
-              <Text style={{margin: 20}}>
-                {excursion.descripcion}
-              </Text>
-            </Card>
+                <Card>
+                <View style={{ position: 'relative' }}>
+                  <Card.Image
+                    source={require('./imagenes/40Años.png')}
+                    style={{ height: 200 }}
+                  />
+                  <View
+                    style={{
+                      position: 'absolute',
+                      top: 40,
+                      left: 0,
+                      right: 0,
+                      alignItems: 'center',
+                      padding: 35,
+                      borderRadius: 5,
+                      marginHorizontal: 10,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: 'chocolate',
+                        fontSize: 35,
+                        fontWeight: 'bold',
+                        textAlign: 'center',
+                      }}
+                    >
+                      {excursion.nombre}
+                    </Text>
+                  </View>
+                </View>
+                <Text style={{ margin: 20 }}>{excursion.descripcion}</Text>
+              </Card>
             );
         }
         else {

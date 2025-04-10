@@ -19,6 +19,10 @@ const Drawer = createDrawerNavigator(); // Menú lateral (desplegable).
 //Se define el componente funcional CalendarioNavegador, 
 // que maneja la navegación entre Calendario y DetalleExcursion
 // //Se usará como pantalla dentro del Drawer
+
+import QuienesSomos from './QuienesSomosComponent';
+import Contact from './ContactoComponent';
+
 function CalendarioNavegador() {
   return (
     <Stack.Navigator //configura el stack de navegación.
@@ -60,7 +64,7 @@ function HomeNavegador() {
     initialRouteName="Home"
     screenOptions={{
 
-      headerMode: 'screen',
+     // headerMode: 'screen',
       headerTintColor: '#fff',
       headerStyle: { backgroundColor: '#015afc' },
       headerTitleStyle: { color: '#fff' },
@@ -76,6 +80,71 @@ function HomeNavegador() {
   </Stack.Navigator>
   );
 }
+
+//Componente funcional ContactNavegador
+//Maneja la navegación en pila solo para la pantalla Contacto
+//Se integra en el Drawer como otra sección del menú.
+
+function ContactNavegador() {
+
+  return (
+    <Stack.Navigator
+      initialRouteName="Contacto"
+      screenOptions={{
+        title: 'Aligned Center',
+        headerTitleAlign: 'center',
+        headerMode: 'screen',
+        headerTintColor: '#fff',
+        headerStyle: { backgroundColor: '#015afc' },
+        headerTitleStyle: { color: '#fff' },
+      }}
+    >
+
+      <Stack.Screen
+        name="Contacto"
+        component={Contact}
+        options={{
+          title: 'Contacto',
+        }}
+      />
+    </Stack.Navigator>
+ 
+  );
+ 
+}
+
+//Componente funcional QuienesSomosNavegador
+//Maneja la navegación en pila solo para la pantalla QuienesSomos
+//Se integra en el Drawer como otra sección del menú.
+function QuienesSomosNavegador() {
+
+  return (
+    <Stack.Navigator
+      initialRouteName="Quienes Somos"
+      screenOptions={{
+        title: 'Aligned Center',
+        headerTitleAlign: 'center',
+        headerMode: 'screen',
+        headerTintColor: '#fff',
+        headerStyle: { backgroundColor: '#015afc' },
+        headerTitleStyle: { color: '#fff' },
+      }}
+ 
+
+    >
+
+      <Stack.Screen
+        name="Quienes Somos" // este es el nombre que mira el drawer
+        component={QuienesSomos}
+        options={{
+          title: 'QuienesSomos',
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+
 
 //Componente funcional DrawerNavegador
 //Define el menú lateral (drawer) de la app.
@@ -94,7 +163,9 @@ function DrawerNavegador() {
       }}
     >
       <Drawer.Screen name="Campo base" component={HomeNavegador} />
+      <Drawer.Screen name="Quienes Somos" component={QuienesSomosNavegador} />
       <Drawer.Screen name="Calendario" component={CalendarioNavegador} />
+      <Drawer.Screen name="Contacto" component={ContactNavegador} />
     </Drawer.Navigator>
   );
 }

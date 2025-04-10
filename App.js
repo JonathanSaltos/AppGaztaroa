@@ -1,6 +1,10 @@
 //El archivo App.js en una aplicación de React Native con Expo
 // tiene la función de definir el componente principal de la aplicación. 
 // Es el punto de entrada donde se estructura la interfaz y se gestionan los estilos.
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs([
+  'Support for defaultProps will be removed from function components',
+]);
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
