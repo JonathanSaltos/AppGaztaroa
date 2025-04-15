@@ -8,18 +8,19 @@ import { Card } from '@rneui/themed'; //Importa el componente Card del paquete @
 import { EXCURSIONES } from '../comun/excursiones';//Importa tres conjuntos de datos desde archivos externos:
 import { CABECERAS } from '../comun/cabeceras';
 import { ACTIVIDADES } from '../comun/actividades';
+import { baseUrl } from '../comun/comun';
 
 function RenderItem(props) { // componente funcional, recibe props
 
     const item = props.item; // extrae item de props
+    //<Card.Image source={require('./imagenes/40Años.png')}></Card.Image>
     if (item != null) { // si no es null
         return (
             // devuelve una tarjeta card con el nombre, imagen fija, descripción del item
             <Card>
                 <View style={{ position: 'relative' }}>
-                    <Card.Image
-                        source={require('./imagenes/40Años.png')}
-                        style={{ height: 200 }}
+
+                    <Card.Image source={{uri: baseUrl + item.imagen }}
                     />
                     <View
                         style={{

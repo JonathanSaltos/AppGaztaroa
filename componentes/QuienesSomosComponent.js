@@ -5,16 +5,18 @@ import { Card } from '@rneui/themed';// Importar Componente de tarjeta para estr
 import { ACTIVIDADES } from '../comun/actividades';//  Importar actividades del grupo desde un archivo externo
 import { FlatList } from 'react-native-gesture-handler'; //Lista optimizada para mostrar muchos elementos.
 import { Avatar, ListItem } from 'react-native-elements'; //Componentes visuales de react-native-elements.
+import { baseUrl } from '../comun/comun';
 
 function RenderItem({ item = {} }) {// componente funcional que renderiza una actividad
     //Imagen fija, titulo, descripcion
-
+    //<Avatar source={require('./imagenes/40Años.png')} />
     if (item != null) {
         return (
             // si no es null
 
             <ListItem bottomDivider>
-                <Avatar source={require('./imagenes/40Años.png')} />
+
+                <Avatar source={{ uri: baseUrl + item.imagen }} />
                 <ListItem.Content>
                     <ListItem.Title>{item.nombre}</ListItem.Title>
                     <ListItem.Subtitle>{item.descripcion}</ListItem.Subtitle>
@@ -36,7 +38,7 @@ function RenderItem({ item = {} }) {// componente funcional que renderiza una ac
 function Historia() {// componente funcional Historia, que muestra la historia del grupo de montaña
 
     return (
-// Card para mostrar la informacion
+        // Card para mostrar la informacion
         <Card>
             <Card.Title>Un poquito de historia</Card.Title>
             <Card.Divider />
@@ -77,7 +79,7 @@ class QuienesSomos extends Component {// componente QuienesSomos que hereda de C
                 <Historia />
                 <Card>
                     <Card.Title>Actividad y recursos</Card.Title>
-                    <Card.Divider/> 
+                    <Card.Divider />
                     <FlatList scrollEnabled={false}
                         data={this.state.actividades}
                         renderItem={RenderItem}

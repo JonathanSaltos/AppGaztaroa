@@ -8,6 +8,9 @@ import { EXCURSIONES } from '../comun/excursiones';//Importa una lista de excurs
 import { COMENTARIOS } from '../comun/comentarios';//Importa una lista de comentarios desde un archivo externo.
 import { LogBox } from 'react-native';
 import { Button } from 'react-native';
+import { baseUrl } from '../comun/comun';
+import { colorGaztaroaClaro } from '../comun/comun';
+import { colorGaztaroaOscuro } from '../comun/comun';
 // Ignorar advertencia de VirtualizedList dentro de ScrollView
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested', // texto exacto o parcial del warning
@@ -54,10 +57,8 @@ function RenderExcursion(props) {// define la funcion RnderExcursion, componente
       //favorita, Si ya es favorita, se muestra un heart; si no, un heart-o
       <Card>
         <View style={{ position: 'relative' }}>
-          <Card.Image
-            source={require('./imagenes/40Años.png')}
-            style={{ height: 200 }}
-          />
+          {/*<Card.Image source={require('./imagenes/40Años.png')} style={{ height: 200 }}>*/}
+          <Card.Image source={{uri: baseUrl + excursion.imagen}}></Card.Image>
           <View
             style={{
               position: 'absolute',
@@ -72,7 +73,7 @@ function RenderExcursion(props) {// define la funcion RnderExcursion, componente
           >
             <Text
               style={{
-                color: 'chocolate',
+                color: colorGaztaroaClaro,
                 fontSize: 35,
                 fontWeight: 'bold',
                 textAlign: 'center',
@@ -123,7 +124,6 @@ class DetalleExcursion extends Component {// define el componente DetalleExcursi
           <Button
             title="Volver Calendario"
             onPress={() => this.props.navigation.goBack()}
-            color="#015afc"
           />
         </View>
         <RenderExcursion

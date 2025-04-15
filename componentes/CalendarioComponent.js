@@ -11,6 +11,7 @@ import { SafeAreaView, FlatList } from 'react-native';
 //FlatList es un componente eficiente para renderizar listas de elementos 
 import { EXCURSIONES } from '../comun/excursiones';// importa el array de objetos EXCURSIONES, 
 // el cual contiene el listado de excursiones, id,nombre,//detalle
+import { baseUrl } from '../comun/comun';
 
 
 //clase Calendario, que extiende de Component.
@@ -34,13 +35,14 @@ class Calendario extends Component {
             // funcion onPress, se ejecuta cuando el usuario pulsa una excursion, para el id 
             //  - ITEM img predeterminada
             //  - ListItem.contet, que contiene el nombre,descripcion
+            //   <Avatar source={require('./imagenes/40Años.png')} />
+
             return (
                 <ListItem
                     key={index}
                     onPress={() => navigate('DetalleExcursion', { excursionId: item.id })}
                     bottomDivider>
-                    <Avatar source={require('./imagenes/40Años.png')} />
-
+                    <Avatar source={{uri: baseUrl + item.imagen}} />
                     <ListItem.Content>
                         <ListItem.Title>{item.nombre}</ListItem.Title>
                         <ListItem.Subtitle>{item.descripcion}</ListItem.Subtitle>
