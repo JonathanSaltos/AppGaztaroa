@@ -18,6 +18,26 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';//Permite usar navegación tipo drawer (menú lateral deslizable).//Contenedor obligatorio para gestionar navegación y acciones del drawer.
 import { colorGaztaroaClaro } from '../comun/comun';
 import { colorGaztaroaOscuro } from '../comun/comun';
+import { connect } from 'react-redux';
+import { fetchExcursiones, fetchComentarios, fetchCabeceras, fetchActividades } from '../redux/ActionCreators';
+
+const mapStateToProps = state => {
+  return {
+    excursiones: state.excursiones,
+    comentarios: state.comentarios,
+    cabeceras: state.cabeceras,
+    actividades: state.actividades
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  fetchExcursiones: () => dispatch(fetchExcursiones()),
+  fetchComentarios: () => dispatch(fetchComentarios()),
+  fetchCabeceras: () => dispatch(fetchCabeceras()),
+  fetchActividades: () => dispatch(fetchActividades()),
+})
+
+
 
 const Stack = createNativeStackNavigator();//Se crea una instancia del Stack Navigator, 
 // que define la estructura de la navegación entre pantallas. Ir hacia adelante y volver hacia atras
@@ -274,6 +294,14 @@ const styles = StyleSheet.create({
 
 //componente principal de la app.
 class Campobase extends Component {// define componente de clase llamado Campobase que extiende de react component
+  
+  componentDidMount() {
+    this.props.fetchExcursiones();
+    this.props.fetchComentarios();
+    this.props.fetchCabeceras();
+    this.props.fetchActividades();
+  }
+
   render() {// metodo render obligatorio en un componente de clase react, define que debe renderizar
     // el componente en la interfaz de usuario
     return (//envuelve la navegación de la aplicación - avigationContainer (obligatorio para usar navegación).
@@ -290,4 +318,5 @@ class Campobase extends Component {// define componente de clase llamado Campoba
   }
 }
 
-export default Campobase;
+//export default Campobase;
+export default connect(mapStateToProps, mapDispatchToProps)(Campobase);

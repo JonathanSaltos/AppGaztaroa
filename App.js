@@ -15,9 +15,14 @@ import Campobase from './componentes/CampobaseComponent';  // Campo base,Importa
 //se usa para gestionar el área segura de la pantalla del dispositivo,  
 // no solape con áreas como la barra de estado
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider } from 'react-redux';
+import { ConfigureStore } from './redux/configureStore';
+const store = ConfigureStore();
 
 export default function App() {
-  return(//devuelve el contenido que se va a renderizar en la interfaz de usuario.
+  return(
+
+//devuelve el contenido que se va a renderizar en la interfaz de usuario.
 
     // SafeAreaProvider, envuelve el contenido de la aplicacion para gestionar areas seguras
     //se asegura que el contenido no quede cubierto por la barra de estado
@@ -27,16 +32,17 @@ export default function App() {
     // de la barra de estado en funcion del fondo
      //Renderiza el componente principal de la aplicación, CampoBase
      // que maneja las excursiones y la navegación.
-
-
-  <SafeAreaProvider>
-    <View style={styles.container}>
-      <Campobase/> 
-      <StatusBar style="auto" />
-    </View>
-  </SafeAreaProvider>
+  <Provider store={store}>
+    <SafeAreaProvider>
+      <View style={styles.container}>
+        <Campobase/>
+        <StatusBar style="auto" />
+      </View>
+    </SafeAreaProvider>
+  </Provider>
   );
 }
+
 //Define los estilos de la vista principal (View):
 const styles = StyleSheet.create({
   container: {

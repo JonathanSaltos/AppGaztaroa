@@ -2,10 +2,26 @@ import React, { Component } from 'react'; //Se importan herramientas de React y 
 //Component: Para crear un componente de clase.
 import { Text, ScrollView, View } from 'react-native';
 import { Card } from '@rneui/themed';// Importar Componente de tarjeta para estructurar contenido
-import { ACTIVIDADES } from '../comun/actividades';//  Importar actividades del grupo desde un archivo externo
+//import { ACTIVIDADES } from '../comun/actividades';//  Importar actividades del grupo desde un archivo externo
 import { FlatList } from 'react-native-gesture-handler'; //Lista optimizada para mostrar muchos elementos.
 import { Avatar, ListItem } from 'react-native-elements'; //Componentes visuales de react-native-elements.
 import { baseUrl } from '../comun/comun';
+import { connect } from 'react-redux';
+import { LogBox } from 'react-native';
+
+// Ignora el warning específico de claves duplicadas
+LogBox.ignoreLogs([
+  'Each child in a list should have a unique "key" prop'
+]);
+const mapStateToProps = state => {
+    return {
+      actividades: state.actividades
+    }
+  }
+
+
+
+
 
 function RenderItem({ item = {} }) {// componente funcional que renderiza una actividad
     //Imagen fija, titulo, descripcion
@@ -56,17 +72,17 @@ function Historia() {// componente funcional Historia, que muestra la historia d
 }
 
 class QuienesSomos extends Component {// componente QuienesSomos que hereda de Component, componente de clase
-    constructor(props) {
-        super(props);
-        this.state = {
+  // constructor(props) {
+    //   super(props);
+     //   this.state = {
 
-            actividades: ACTIVIDADES//En el state, guarda la lista de actividades del archivo importado ACTIVIDADES
-
-
-        };
+          //  actividades: ACTIVIDADES//En el state, guarda la lista de actividades del archivo importado ACTIVIDADES
 
 
-    }
+       // };
+
+
+    //}
 
 
     render() {
@@ -81,7 +97,8 @@ class QuienesSomos extends Component {// componente QuienesSomos que hereda de C
                     <Card.Title>Actividad y recursos</Card.Title>
                     <Card.Divider />
                     <FlatList scrollEnabled={false}
-                        data={this.state.actividades}
+                       // data={this.state.actividades}
+                        data={this.props.actividades.actividades}
                         renderItem={RenderItem}
                         keyExtractor={item => item.id.toString()}
                     />
@@ -93,4 +110,6 @@ class QuienesSomos extends Component {// componente QuienesSomos que hereda de C
     }
 }
 
-export default QuienesSomos;
+//export default QuienesSomos;
+
+export default connect(mapStateToProps)(QuienesSomos);

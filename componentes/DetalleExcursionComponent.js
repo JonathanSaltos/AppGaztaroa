@@ -4,17 +4,26 @@ import React, { Component } from 'react';
 import { Text, View, ScrollView, FlatList } from 'react-native';// importa componentes tipo Text para mostrar texto en pantalla
 // y View contenedor para esructurar la interfaz
 import { Card, Icon } from '@rneui/themed';// importa componente card para mostrar informacion dentro de una tarjeta,  e iconos con estilo.
-import { EXCURSIONES } from '../comun/excursiones';//Importa una lista de excursiones desde un archivo externo.
-import { COMENTARIOS } from '../comun/comentarios';//Importa una lista de comentarios desde un archivo externo.
+//import { EXCURSIONES } from '../comun/excursiones';//Importa una lista de excursiones desde un archivo externo.
+//import { COMENTARIOS } from '../comun/comentarios';//Importa una lista de comentarios desde un archivo externo.
 import { LogBox } from 'react-native';
 import { Button } from 'react-native';
 import { baseUrl } from '../comun/comun';
 import { colorGaztaroaClaro } from '../comun/comun';
 import { colorGaztaroaOscuro } from '../comun/comun';
+import { connect } from 'react-redux';
 // Ignorar advertencia de VirtualizedList dentro de ScrollView
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested', // texto exacto o parcial del warning
 ]);
+
+const mapStateToProps = state => {
+  return {
+    actividades: state.actividades,
+    excursiones: state.excursiones,
+    comentarios: state.comentarios,
+  }
+}
 
 
 function RenderComentario(props) {//Renderiza una tarjeta con los comentarios relacionados a la excursión.
@@ -32,8 +41,8 @@ function RenderComentario(props) {//Renderiza una tarjeta con los comentarios re
 
 
   return (
-//Utiliza FlatList para mostrar los comentarios en una lista optimizada
-//Cada comentario muestra el texto, valoración y autor con fecha.
+    //Utiliza FlatList para mostrar los comentarios en una lista optimizada
+    //Cada comentario muestra el texto, valoración y autor con fecha.
     <Card>
       <Card.Title>Comentarios</Card.Title>
       <Card.Divider />
@@ -58,7 +67,7 @@ function RenderExcursion(props) {// define la funcion RnderExcursion, componente
       <Card>
         <View style={{ position: 'relative' }}>
           {/*<Card.Image source={require('./imagenes/40Años.png')} style={{ height: 200 }}>*/}
-          <Card.Image source={{uri: baseUrl + excursion.imagen}}></Card.Image>
+          <Card.Image source={{ uri: baseUrl + excursion.imagen }}></Card.Image>
           <View
             style={{
               position: 'absolute',
@@ -102,10 +111,10 @@ function RenderExcursion(props) {// define la funcion RnderExcursion, componente
 
 class DetalleExcursion extends Component {// define el componente DetalleExcursion, 
   constructor(props) {
-    super(props); 
+    super(props);
     this.state = { // inicializa el estado con excursiones,comentarios,favoritos
-      excursiones: EXCURSIONES, //En el state, guarda la lista de excursiones (EXCURSIONES).
-      comentarios: COMENTARIOS,
+      //excursiones: EXCURSIONES, //En el state, guarda la lista de excursiones (EXCURSIONES).
+      //comentarios: COMENTARIOS,
       favoritos: [],
     };
   }
@@ -119,7 +128,7 @@ class DetalleExcursion extends Component {// define el componente DetalleExcursi
     //  (parámetro pasado desde la navegación).
     return (
       <ScrollView>
-       {/*añade boton para volver al calendario */}
+        {/*añade boton para volver al calendario */}
         <View style={{ margin: 10 }}>
           <Button
             title="Volver Calendario"
@@ -127,17 +136,22 @@ class DetalleExcursion extends Component {// define el componente DetalleExcursi
           />
         </View>
         <RenderExcursion
-          excursion={this.state.excursiones[+excursionId]}
+          //excursion={this.state.excursiones[+excursionId]}
+          excursion={this.props.excursiones.excursiones[+excursionId]} // viene de redux
           favorita={this.state.favoritos.some(el => el === excursionId)}
           onPress={() => this.marcarFavorito(excursionId)}
         />
+        
         <RenderComentario
-          comentarios={this.state.comentarios.filter((comentario) => comentario.excursionId === excursionId)}
+          //comentarios={this.state.comentarios.filter((comentario) => comentario.excursionId === excursionId)}
+          comentarios={this.props.comentarios.comentarios.filter((comentario) => comentario.excursionId === excursionId)}
         />
+
       </ScrollView>
     );//Pasa la excursión a RenderExcursion, que se encargará de mostrarla.
     /// muestra los comentarios relacinados con renderComentario
   }
 }
 
-export default DetalleExcursion;
+//export default DetalleExcursion;
+export default connect(mapStateToProps)(DetalleExcursion);

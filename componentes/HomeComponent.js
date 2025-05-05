@@ -5,10 +5,23 @@ import { Text, ScrollView, View } from 'react-native'; // Importa componentes na
 //View para crear contenedores.
 import { Card } from '@rneui/themed'; //Importa el componente Card del paquete @rneui/themed (parte de React Native Elements), 
 // para mostrar contenido como una tarjeta.
-import { EXCURSIONES } from '../comun/excursiones';//Importa tres conjuntos de datos desde archivos externos:
-import { CABECERAS } from '../comun/cabeceras';
-import { ACTIVIDADES } from '../comun/actividades';
+//import { EXCURSIONES } from '../comun/excursiones';//Importa tres conjuntos de datos desde archivos externos:
+//import { CABECERAS } from '../comun/cabeceras';
+//import { ACTIVIDADES } from '../comun/actividades';
 import { baseUrl } from '../comun/comun';
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => {
+    return {
+        excursiones: state.excursiones,
+        cabeceras: state.cabeceras,
+        actividades: state.actividades
+    }
+}
+
+
+
+
 
 function RenderItem(props) { // componente funcional, recibe props
 
@@ -52,14 +65,14 @@ function RenderItem(props) { // componente funcional, recibe props
 
 class Home extends Component { // componente Home que hereda de Component
 
-    constructor(props) { // construcutor, recibe props
-        super(props);
-        this.state = { // e inicializa el estado
-            excursiones: EXCURSIONES,
-            cabeceras: CABECERAS,
-            actividades: ACTIVIDADES
-        };
-    }
+    //constructor(props) { // construcutor, recibe props
+      //  super(props);
+      //  this.state = { // e inicializa el estado
+       //     excursiones: EXCURSIONES,
+       //     cabeceras: CABECERAS,
+       //     actividades: ACTIVIDADES
+       // };
+   // }
 
     render() { // devuelve lo que se va a renderizar
 
@@ -70,12 +83,22 @@ class Home extends Component { // componente Home que hereda de Component
             //tarjeta para actividad
             // para cada caso se filtra el array del estado para marcar el primer elemento destacado
             <ScrollView>
-                <RenderItem item={this.state.cabeceras.filter((cabecera) => cabecera.destacado)[0]} />
+                {/*<RenderItem item={this.state.cabeceras.filter((cabecera) => cabecera.destacado)[0]} />
                 <RenderItem item={this.state.excursiones.filter((excursion) => excursion.destacado)[0]} />
-                <RenderItem item={this.state.actividades.filter((actividad) => actividad.destacado)[0]} />
+                <RenderItem item={this.state.actividades.filter((actividad) => actividad.destacado)[0]} />*/}
+
+
+                <RenderItem item={this.props.cabeceras.cabeceras.filter((cabecera) => cabecera.destacado)[0]} />
+                <RenderItem item={this.props.excursiones.excursiones.filter((excursion) => excursion.destacado)[0]} />
+                <RenderItem item={this.props.actividades.actividades.filter((actividad) => actividad.destacado)[0]} />
+             
+
+
+
             </ScrollView>
         );
     }
 }
 
-export default Home;
+//export default Home;
+export default connect(mapStateToProps)(Home);
