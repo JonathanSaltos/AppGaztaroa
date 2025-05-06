@@ -8,7 +8,7 @@ import { Avatar, ListItem } from 'react-native-elements'; //Componentes visuales
 import { baseUrl } from '../comun/comun';
 import { connect } from 'react-redux';
 import { LogBox } from 'react-native';
-
+import { IndicadorActividad } from "./IndicadorActividadComponent";
 // Ignora el warning específico de claves duplicadas
 LogBox.ignoreLogs([
   'Each child in a list should have a unique "key" prop'
@@ -18,10 +18,6 @@ const mapStateToProps = state => {
       actividades: state.actividades
     }
   }
-
-
-
-
 
 function RenderItem({ item = {} }) {// componente funcional que renderiza una actividad
     //Imagen fija, titulo, descripcion
@@ -87,29 +83,67 @@ class QuienesSomos extends Component {// componente QuienesSomos que hereda de C
 
     render() {
 
-        return (
             // muestra un scrollview para que todo el contenido se pueda desplazar verticalmente. 
             // desplazable que contiene el card con el componente historia del club y el otro card
             // Actividad y recursos", muestra una lista (FlatList) de actividades usando RenderItem.
-            <ScrollView>
-                <Historia />
-                <Card>
-                    <Card.Title>Actividad y recursos</Card.Title>
-                    <Card.Divider />
-                    <FlatList scrollEnabled={false}
-                       // data={this.state.actividades}
-                        data={this.props.actividades.actividades}
-                        renderItem={RenderItem}
-                        keyExtractor={item => item.id.toString()}
+          
+            if (this.props.actividades.isLoading) {
+
+                return (
+    
+                  <ScrollView>
+                    <Historia />
+                    <Card>
+                      <Card.Title>Actividades y recursos</Card.Title>
+                      <Card.Divider />
+                      <IndicadorActividad />
+                    </Card>
+                  </ScrollView>
+                );
+           
+    
+              } else if (this.props.actividades.errMess) {
+           
+                return (
+                  <View>
+        
+                    <Text>{this.props.actividades.errMess}</Text>
+                  </View>
+                );
+           
+          
+              } else {
+           
+    
+                return (
+           
+                  <ScrollView>
+           
+                    <Historia />
+           
+                    <Card>
+           
+                      <Card.Title>Actividad y recursos</Card.Title>
+                      <FlatList
+
+                      scrollEnabled={false}
+                      data={this.props.actividades.actividades}
+                      renderItem={RenderItem}
+                      keyExtractor={(item) => item.id.toString()}
+    
                     />
-
-                </Card>
-            </ScrollView>
-
-        );
-    }
-}
-
-//export default QuienesSomos;
-
-export default connect(mapStateToProps)(QuienesSomos);
+         
+        
+                  </Card>
+                </ScrollView>
+         
+        
+              );
+         
+        
+            }
+         
+          }
+         
+        }
+        export default connect(mapStateToProps)(QuienesSomos);

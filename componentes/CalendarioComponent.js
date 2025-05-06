@@ -13,23 +13,23 @@ import { SafeAreaView, FlatList } from 'react-native';
 // el cual contiene el listado de excursiones, id,nombre,//detalle
 import { baseUrl } from '../comun/comun';
 import { connect } from 'react-redux';
-
+import { IndicadorActividad } from './IndicadorActividadComponent';
 const mapStateToProps = state => {
     return {
-      excursiones: state.excursiones
+        excursiones: state.excursiones
     }
-  }
+}
 
 
 //clase Calendario, que extiende de Component.
 class Calendario extends Component {
-   // constructor(props) {//se inicializa el state con los datos de EXCURSIONES, 
-        // permitiendo que el componente maneje su propio estado.
-       // super(props);
-       // this.state = {
-        //    excursiones: EXCURSIONES
-       // };
-  //  }
+    // constructor(props) {//se inicializa el state con los datos de EXCURSIONES, 
+    // permitiendo que el componente maneje su propio estado.
+    // super(props);
+    // this.state = {
+    //    excursiones: EXCURSIONES
+    // };
+    //  }
 
     render() {
 
@@ -49,7 +49,7 @@ class Calendario extends Component {
                     key={index}
                     onPress={() => navigate('DetalleExcursion', { excursionId: item.id })}
                     bottomDivider>
-                    <Avatar source={{uri: baseUrl + item.imagen}} />
+                    <Avatar source={{ uri: baseUrl + item.imagen }} />
                     <ListItem.Content>
                         <ListItem.Title>{item.nombre}</ListItem.Title>
                         <ListItem.Subtitle>{item.descripcion}</ListItem.Subtitle>
@@ -57,21 +57,41 @@ class Calendario extends Component {
                 </ListItem>
             );
         };
-        //Renderización de la Lista
-        // SafeArea, para que el contenido no se solape con areas sensibles de la pantalla
-        // flatlist, con lista de excursiones recibidas,
-        //renderizar cada elemento de la lista
-        //Keyextractor que cada elemento tenga su clave unica, id convertida a cadena de texto
-        return (
-            <SafeAreaView>
-                <FlatList
-                   // data={this.state.excursiones}
-                   data={this.props.excursiones.excursiones}
-                    renderItem={renderCalendarioItem}
-                    keyExtractor={item => item.id.toString()}
-                />
-            </SafeAreaView>
-        );
+
+        if (this.props.excursiones.isLoading) {
+            return (
+                <IndicadorActividad />
+            );
+        }
+
+        else if (this.props.excursiones.isLoading) {
+            return (
+                <View>
+                    <Text>{this.props.excursiones.errMess}</Text>
+                </View>
+            );
+        }
+
+        else {
+            //Renderización de la Lista
+            // SafeArea, para que el contenido no se solape con areas sensibles de la pantalla
+            // flatlist, con lista de excursiones recibidas,
+            //renderizar cada elemento de la lista
+            //Keyextractor que cada elemento tenga su clave unica, id convertida a cadena de texto
+            return (
+                <SafeAreaView>
+                    <FlatList
+                        // data={this.state.excursiones}
+                        data={this.props.excursiones.excursiones}
+                        renderItem={renderCalendarioItem}
+                        keyExtractor={item => item.id.toString()}
+                    />
+                </SafeAreaView>
+            );
+
+        }
+
+
     }
 }
 

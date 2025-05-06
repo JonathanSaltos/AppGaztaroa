@@ -10,7 +10,7 @@ import { Card } from '@rneui/themed'; //Importa el componente Card del paquete @
 //import { ACTIVIDADES } from '../comun/actividades';
 import { baseUrl } from '../comun/comun';
 import { connect } from 'react-redux';
-
+import { IndicadorActividad } from './IndicadorActividadComponent';
 const mapStateToProps = state => {
     return {
         excursiones: state.excursiones,
@@ -19,21 +19,33 @@ const mapStateToProps = state => {
     }
 }
 
-
-
-
-
 function RenderItem(props) { // componente funcional, recibe props
 
     const item = props.item; // extrae item de props
-    //<Card.Image source={require('./imagenes/40Años.png')}></Card.Image>
-    if (item != null) { // si no es null
-        return (
-            // devuelve una tarjeta card con el nombre, imagen fija, descripción del item
-            <Card>
+
+    if (props.isLoading) {
+        return(
+        <IndicadorActividad />
+        );
+        }
+
+    else if (props.errMess) {
+            return(
+                <View> 
+                    <Text>{props.errMess}</Text>
+                </View>
+            );
+        }
+    
+    else { 
+
+            if (item != null) {
+                return(
+                   // devuelve una tarjeta card con el nombre, imagen fija, descripción del item
+                    <Card>
                 <View style={{ position: 'relative' }}>
 
-                    <Card.Image source={{uri: baseUrl + item.imagen }}
+                    <Card.Image source={{ uri: baseUrl + item.imagen }}
                     />
                     <View
                         style={{
@@ -56,23 +68,25 @@ function RenderItem(props) { // componente funcional, recibe props
 
                 <Text style={{ margin: 20 }}>{item.descripcion}</Text>
             </Card>
-        );
+                );
+            }
+            else {
+                return(<View></View>);
+    
+            }
+        }
     }
-    else {
-        return (<View></View>);
-    }
-}
-
+    
 class Home extends Component { // componente Home que hereda de Component
 
     //constructor(props) { // construcutor, recibe props
-      //  super(props);
-      //  this.state = { // e inicializa el estado
-       //     excursiones: EXCURSIONES,
-       //     cabeceras: CABECERAS,
-       //     actividades: ACTIVIDADES
-       // };
-   // }
+    //  super(props);
+    //  this.state = { // e inicializa el estado
+    //     excursiones: EXCURSIONES,
+    //     cabeceras: CABECERAS,
+    //     actividades: ACTIVIDADES
+    // };
+    // }
 
     render() { // devuelve lo que se va a renderizar
 
@@ -89,9 +103,16 @@ class Home extends Component { // componente Home que hereda de Component
 
 
                 <RenderItem item={this.props.cabeceras.cabeceras.filter((cabecera) => cabecera.destacado)[0]} />
-                <RenderItem item={this.props.excursiones.excursiones.filter((excursion) => excursion.destacado)[0]} />
+
+                {/*<RenderItem item={this.props.excursiones.excursiones.filter((excursion) => excursion.destacado)[0]} />*/}
+
+                <RenderItem item={this.props.excursiones.excursiones.filter((excursion) => excursion.destacado)[0]}
+                    isLoading={this.props.excursiones.isLoading}
+                    errMess={this.props.excursiones.errMess}
+                />
+
                 <RenderItem item={this.props.actividades.actividades.filter((actividad) => actividad.destacado)[0]} />
-             
+
 
 
 

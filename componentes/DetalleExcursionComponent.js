@@ -16,14 +16,20 @@ import { connect } from 'react-redux';
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested', // texto exacto o parcial del warning
 ]);
-
+import { postFavorito } from '../redux/ActionCreators';
 const mapStateToProps = state => {
   return {
     actividades: state.actividades,
     excursiones: state.excursiones,
     comentarios: state.comentarios,
+    favoritos: state.favoritos
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  postFavorito: (excursionId) => dispatch(postFavorito(excursionId))
+})
+
 
 
 function RenderComentario(props) {//Renderiza una tarjeta con los comentarios relacionados a la excursión.
@@ -110,17 +116,18 @@ function RenderExcursion(props) {// define la funcion RnderExcursion, componente
 }
 
 class DetalleExcursion extends Component {// define el componente DetalleExcursion, 
-  constructor(props) {
-    super(props);
-    this.state = { // inicializa el estado con excursiones,comentarios,favoritos
+  //constructor(props) {
+   // super(props);
+   // this.state = { // inicializa el estado con excursiones,comentarios,favoritos
       //excursiones: EXCURSIONES, //En el state, guarda la lista de excursiones (EXCURSIONES).
       //comentarios: COMENTARIOS,
-      favoritos: [],
-    };
-  }
+     // favoritos: [],
+   // };
+  //}
 
   marcarFavorito(excursionId) {
-    this.setState({ favoritos: this.state.favoritos.concat(excursionId) }); //AÑADE excursion a la lista favoritos
+    //this.setState({ favoritos: this.state.favoritos.concat(excursionId) }); //AÑADE excursion a la lista favoritos
+    this.props.postFavorito(excursionId);
   }
 
   render() {
@@ -138,8 +145,9 @@ class DetalleExcursion extends Component {// define el componente DetalleExcursi
         <RenderExcursion
           //excursion={this.state.excursiones[+excursionId]}
           excursion={this.props.excursiones.excursiones[+excursionId]} // viene de redux
-          favorita={this.state.favoritos.some(el => el === excursionId)}
-          onPress={() => this.marcarFavorito(excursionId)}
+               //favorita={this.state.favoritos.some(el => el === excursionId)}
+          favorita={this.props.favoritos.favoritos.some(el => el === excursionId)}
+                     onPress={() => this.marcarFavorito(excursionId)}
         />
         
         <RenderComentario
@@ -154,4 +162,5 @@ class DetalleExcursion extends Component {// define el componente DetalleExcursi
 }
 
 //export default DetalleExcursion;
-export default connect(mapStateToProps)(DetalleExcursion);
+//export default connect(mapStateToProps)(DetalleExcursion);
+export default connect(mapStateToProps, mapDispatchToProps)(DetalleExcursion);
