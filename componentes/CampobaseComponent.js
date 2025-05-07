@@ -70,7 +70,7 @@ function CustomDrawerContent(props) {//Función que personaliza el contenido del
 function CalendarioNavegador({ navigation }) {
   return (
     <Stack.Navigator //configura el stack de navegación.
-      initialRouteName="Calendario" //define que la primera pantalla será Calendar.
+      initialRouteName="Calendar" //define que la primera pantalla será Calendar.
 
       screenOptions={{ //personaliza el estilo de los encabezados de las pantallas.
         headerTintColor: '#fff',
@@ -82,7 +82,7 @@ function CalendarioNavegador({ navigation }) {
     >
 
       <Stack.Screen
-        name="Calendario"//Agrega una pantalla llamada Calendar, que renderiza el componente Calendario
+        name="Calendar"//Agrega una pantalla llamada Calendar, que renderiza el componente Calendario
         // cuando se accede a esta pantalla
         component={Calendario}
         options={{
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
 
 //componente principal de la app.
 class Campobase extends Component {// define componente de clase llamado Campobase que extiende de react component
-  
+
   componentDidMount() {
     this.props.fetchExcursiones();
     this.props.fetchComentarios();

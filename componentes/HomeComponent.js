@@ -24,59 +24,59 @@ function RenderItem(props) { // componente funcional, recibe props
     const item = props.item; // extrae item de props
 
     if (props.isLoading) {
-        return(
-        <IndicadorActividad />
+        return (
+            <IndicadorActividad />
         );
-        }
+    }
 
     else if (props.errMess) {
-            return(
-                <View> 
-                    <Text>{props.errMess}</Text>
-                </View>
+        return (
+            <View>
+                <Text>{props.errMess}</Text>
+            </View>
+        );
+    }
+
+    else {
+
+        if (item != null) {
+            return (
+                // devuelve una tarjeta card con el nombre, imagen fija, descripción del item
+                <Card>
+                    <View style={{ position: 'relative' }}>
+
+                        <Card.Image source={{ uri: baseUrl + item.imagen }}
+                        />
+                        <View
+                            style={{
+                                position: 'absolute',
+                                top: 10,
+                                left: 0,
+                                right: 0,
+                                alignItems: 'center', // centra horizontalmente el texto
+                                padding: 5,
+                                borderRadius: 5,
+                            }}
+                        >
+                            <Text
+                                style={{ color: 'chocolate', fontSize: 40, fontWeight: 'bold', textAlign: 'center', }}
+                            >
+                                {item.nombre}
+                            </Text>
+                        </View>
+                    </View>
+
+                    <Text style={{ margin: 20 }}>{item.descripcion}</Text>
+                </Card>
             );
         }
-    
-    else { 
+        else {
+            return (<View></View>);
 
-            if (item != null) {
-                return(
-                   // devuelve una tarjeta card con el nombre, imagen fija, descripción del item
-                    <Card>
-                <View style={{ position: 'relative' }}>
-
-                    <Card.Image source={{ uri: baseUrl + item.imagen }}
-                    />
-                    <View
-                        style={{
-                            position: 'absolute',
-                            top: 10,
-                            left: 0,
-                            right: 0,
-                            alignItems: 'center', // centra horizontalmente el texto
-                            padding: 5,
-                            borderRadius: 5,
-                        }}
-                    >
-                        <Text
-                            style={{ color: 'chocolate', fontSize: 40, fontWeight: 'bold', textAlign: 'center', }}
-                        >
-                            {item.nombre}
-                        </Text>
-                    </View>
-                </View>
-
-                <Text style={{ margin: 20 }}>{item.descripcion}</Text>
-            </Card>
-                );
-            }
-            else {
-                return(<View></View>);
-    
-            }
         }
     }
-    
+}
+
 class Home extends Component { // componente Home que hereda de Component
 
     //constructor(props) { // construcutor, recibe props

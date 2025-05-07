@@ -14,34 +14,34 @@ LogBox.ignoreLogs([
   'Each child in a list should have a unique "key" prop'
 ]);
 const mapStateToProps = state => {
-    return {
-      actividades: state.actividades
-    }
+  return {
+    actividades: state.actividades
   }
+}
 
 function RenderItem({ item = {} }) {// componente funcional que renderiza una actividad
-    //Imagen fija, titulo, descripcion
-    //<Avatar source={require('./imagenes/40Años.png')} />
-    if (item != null) {
-        return (
-            // si no es null
+  //Imagen fija, titulo, descripcion
+  //<Avatar source={require('./imagenes/40Años.png')} />
+  if (item != null) {
+    return (
+      // si no es null
 
-            <ListItem bottomDivider>
+      <ListItem bottomDivider>
 
-                <Avatar source={{ uri: baseUrl + item.imagen }} />
-                <ListItem.Content>
-                    <ListItem.Title>{item.nombre}</ListItem.Title>
-                    <ListItem.Subtitle>{item.descripcion}</ListItem.Subtitle>
-                </ListItem.Content>
-            </ListItem>
+        <Avatar source={{ uri: baseUrl + item.imagen }} />
+        <ListItem.Content>
+          <ListItem.Title>{item.nombre}</ListItem.Title>
+          <ListItem.Subtitle>{item.descripcion}</ListItem.Subtitle>
+        </ListItem.Content>
+      </ListItem>
 
-        );
-    }
+    );
+  }
 
 
-    else {
-        return (<View></View>);
-    }
+  else {
+    return (<View></View>);
+  }
 
 
 }
@@ -49,101 +49,101 @@ function RenderItem({ item = {} }) {// componente funcional que renderiza una ac
 
 function Historia() {// componente funcional Historia, que muestra la historia del grupo de montaña
 
-    return (
-        // Card para mostrar la informacion
-        <Card>
-            <Card.Title>Un poquito de historia</Card.Title>
-            <Card.Divider />
-            <Text style={{ margin: 20 }}>
-                El nacimiento del club de montaña Gaztaroa se remonta a la primavera de 1976 cuando jóvenes aficionados a la montaña y pertenecientes a un club juvenil decidieron crear la sección montañera de dicho club. Fueron unos comienzos duros debido sobre todo a la situación política de entonces. Gracias al esfuerzo económico de sus socios y socias se logró alquilar una bajera. Gaztaroa ya tenía su sede social.
-            </Text>
-            <Text style={{ margin: 20 }}>Desde aquí queremos hacer llegar nuestro agradecimiento a todos los montañeros y montañeras que alguna vez habéis pasado por el club aportando vuestro granito de arena.</Text>
-            <Text style={{ margin: 20 }}>Gracias!</Text>
-        </Card>
+  return (
+    // Card para mostrar la informacion
+    <Card>
+      <Card.Title>Un poquito de historia</Card.Title>
+      <Card.Divider />
+      <Text style={{ margin: 20 }}>
+        El nacimiento del club de montaña Gaztaroa se remonta a la primavera de 1976 cuando jóvenes aficionados a la montaña y pertenecientes a un club juvenil decidieron crear la sección montañera de dicho club. Fueron unos comienzos duros debido sobre todo a la situación política de entonces. Gracias al esfuerzo económico de sus socios y socias se logró alquilar una bajera. Gaztaroa ya tenía su sede social.
+      </Text>
+      <Text style={{ margin: 20 }}>Desde aquí queremos hacer llegar nuestro agradecimiento a todos los montañeros y montañeras que alguna vez habéis pasado por el club aportando vuestro granito de arena.</Text>
+      <Text style={{ margin: 20 }}>Gracias!</Text>
+    </Card>
 
 
-    );
+  );
 
 
 }
 
 class QuienesSomos extends Component {// componente QuienesSomos que hereda de Component, componente de clase
   // constructor(props) {
-    //   super(props);
-     //   this.state = {
+  //   super(props);
+  //   this.state = {
 
-          //  actividades: ACTIVIDADES//En el state, guarda la lista de actividades del archivo importado ACTIVIDADES
-
-
-       // };
+  //  actividades: ACTIVIDADES//En el state, guarda la lista de actividades del archivo importado ACTIVIDADES
 
 
-    //}
+  // };
 
 
-    render() {
+  //}
 
-            // muestra un scrollview para que todo el contenido se pueda desplazar verticalmente. 
-            // desplazable que contiene el card con el componente historia del club y el otro card
-            // Actividad y recursos", muestra una lista (FlatList) de actividades usando RenderItem.
-          
-            if (this.props.actividades.isLoading) {
 
-                return (
-    
-                  <ScrollView>
-                    <Historia />
-                    <Card>
-                      <Card.Title>Actividades y recursos</Card.Title>
-                      <Card.Divider />
-                      <IndicadorActividad />
-                    </Card>
-                  </ScrollView>
-                );
-           
-    
-              } else if (this.props.actividades.errMess) {
-           
-                return (
-                  <View>
-        
-                    <Text>{this.props.actividades.errMess}</Text>
-                  </View>
-                );
-           
-          
-              } else {
-           
-    
-                return (
-           
-                  <ScrollView>
-           
-                    <Historia />
-           
-                    <Card>
-           
-                      <Card.Title>Actividad y recursos</Card.Title>
-                      <FlatList
+  render() {
 
-                      scrollEnabled={false}
-                      data={this.props.actividades.actividades}
-                      renderItem={RenderItem}
-                      keyExtractor={(item) => item.id.toString()}
-    
-                    />
-         
-        
-                  </Card>
-                </ScrollView>
-         
-        
-              );
-         
-        
-            }
-         
-          }
-         
-        }
-        export default connect(mapStateToProps)(QuienesSomos);
+    // muestra un scrollview para que todo el contenido se pueda desplazar verticalmente. 
+    // desplazable que contiene el card con el componente historia del club y el otro card
+    // Actividad y recursos", muestra una lista (FlatList) de actividades usando RenderItem.
+
+    if (this.props.actividades.isLoading) {
+
+      return (
+
+        <ScrollView>
+          <Historia />
+          <Card>
+            <Card.Title>Actividades y recursos</Card.Title>
+            <Card.Divider />
+            <IndicadorActividad />
+          </Card>
+        </ScrollView>
+      );
+
+
+    } else if (this.props.actividades.errMess) {
+
+      return (
+        <View>
+
+          <Text>{this.props.actividades.errMess}</Text>
+        </View>
+      );
+
+
+    } else {
+
+
+      return (
+
+        <ScrollView>
+
+          <Historia />
+
+          <Card>
+
+            <Card.Title>Actividad y recursos</Card.Title>
+            <FlatList
+
+              scrollEnabled={false}
+              data={this.props.actividades.actividades}
+              renderItem={RenderItem}
+              keyExtractor={(item) => item.id.toString()}
+
+            />
+
+
+          </Card>
+        </ScrollView>
+
+
+      );
+
+
+    }
+
+  }
+
+}
+export default connect(mapStateToProps)(QuienesSomos);
